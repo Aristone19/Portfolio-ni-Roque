@@ -1,0 +1,19 @@
+/* Standalone style foundation for the Word Quest case study.
+   Dark game case study with a gold accent, paired with the overall dark portfolio. */
+:root{--bg:#0c100f;--text:#f4f1e9;--display:'Manrope',sans-serif}
+body{background:#0c100f;color:#f4f1e9}
+.shell{width:min(1190px,calc(100% - 80px));margin-inline:auto}
+.identity-mark{width:40px;height:40px;background:#1b2521;border:1px solid #596058;display:inline-grid;place-items:center;color:#fff;border-radius:50%;font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:-.08em}
+.identity-mark span{color:#e5c58c}
+.button{display:inline-flex;align-items:center;gap:14px;padding:15px 20px;border-radius:7px;font-family:var(--display);font-size:12px;font-weight:800;text-decoration:none;transition:transform .2s,background .2s}
+.button:hover{transform:translateY(-3px)}
+.button-outline{border:1px solid #74766e;color:#f3f1ea;background:transparent}
+.button-outline:hover{background:#252b27}
+.eyebrow{font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.16em}
+.site-footer{border-top:1px solid #343c38;padding:26px 0;background:#0b100f;color:#aeb7ac}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;font-size:11px;font-weight:700}
+.site-footer a{color:#e5c58c}
+.word-section,.implementation,.word-final{color:#f3f4ef}
+.word-hero{background-color:#0c100f}
+@media(max-width:700px){.shell{width:calc(100% - 34px)}.footer-inner{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.button{transition:none}}

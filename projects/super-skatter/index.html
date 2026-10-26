@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Skatter Slot Machine</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'League Spartan', sans-serif;
+    margin: 0; padding: 0;
+    color: #fff;
+    background: url("images/background.png") no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    overflow-x: hidden;
+}
+body::after {
+    content: "";
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+/* --- Prologue & Epilogue --- */
+
+#instructions-overlay {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: gold;
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 30px;
+    z-index: 100000;
+}
+#instructions-overlay button {
+    margin-top: 25px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    color: #111;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+#instructions-overlay button:hover {
+    background: linear-gradient(45deg, #ffcc33, #ffa500);
+}
+
+#prologue-overlay, #epilogue-overlay {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: gold;
+    font-size: 1.8rem;
+    text-align: center;
+    z-index: 100000;
+}
+#prologue-overlay button, #epilogue-overlay button {
+    margin-top: 20px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    color: #111;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+#prologue-overlay button:hover, #epilogue-overlay button:hover {
+    background: linear-gradient(45deg, #ffcc33, #ffa500);
+}
+
+/* --- Loading Screen --- */
+#loading-screen {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+#loading-bar-container {
+    width: 60%;
+    height: 30px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid #ff6a00;
+    box-shadow: 0 0 25px #ff6a00;
+}
+#loading-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, orange, gold, yellow);
+    animation: loadAnim 3s linear forwards;
+}
+@keyframes loadAnim { 0% { width:0; } 100% { width:100%; } }
+
+/* --- Game --- */
+#game { display: none; padding: 20px; position: relative; max-width: 95%; margin: auto; }
+h1 { color: #ffd700; text-shadow: 0 0 15px #ff8c00,0 0 25px #ffa500; margin-bottom: 20px; font-size: 2.3rem; }
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(70px, 100px));
+    grid-template-rows: repeat(4, minmax(70px, 100px));
+    gap: 12px;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(0,0,0,0.85);
+    border: 3px solid #ffa500;
+    border-radius: 25px;
+    box-shadow: 0 0 25px #000, inset 0 0 20px #222;
+    width: fit-content;
+}
+.cell {
+    background: radial-gradient(circle at top, #444, #111);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ffd700;
+    box-shadow: inset 0 0 10px #000;
+    transition: all 0.3s ease;
+}
+.cell img { width: 80%; height: 80%; object-fit: contain; transition: transform 0.3s ease; }
+.cell.highlight img { transform: scale(1.2) rotate(10deg); }
+.scatter img { animation: neonGlow 0.8s infinite alternate; }
+@keyframes neonGlow { 0% { filter: drop-shadow(0 0 5px #ff4500); } 50% { filter: drop-shadow(0 0 20px #ff6347); } 100% { filter: drop-shadow(0 0 35px #ff4500); } }
+#balance-popup {
+    position: fixed;
+    top: 40%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.95);
+    color: #ff6a00;
+    padding: 25px 40px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    box-shadow: 0 0 25px gold,0 0 40px orange;
+    z-index: 9999;
+    display: none;
+}
+#balance-popup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    color: #111;
+    cursor: pointer;
+}
+#balance-popup button:hover { background: linear-gradient(45deg, #ffcc33, #ffa500); }
+
+/* --- Highlight & Effects --- */
+.highlight { animation: pop 0.5s ease forwards; background: radial-gradient(circle at top, #ffcc33, #ffa500); border-color: #fff; box-shadow: 0 0 20px gold,0 0 30px orange,inset 0 0 15px #fff; }
+@keyframes pop {0%{transform:scale(1);} 40%{transform:scale(1.3);} 70%{transform:scale(0.95);} 100%{transform:scale(1);} }
+.info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px 20px; margin-bottom:10px; }
+.btn-row { display:flex; gap:15px; justify-content:center; margin-top:10px; flex-wrap: wrap; }
+.speed-row { margin-top:10px; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap: wrap; }
+.speed-btn { padding:8px 16px; border-radius:10px; font-size:1.1rem; border:none; cursor:pointer; background:linear-gradient(45deg, #ff7f50, #ffd700); color:#111; font-weight:bold; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:0.25s; }
+.speed-btn:hover { background: linear-gradient(45deg, gold, orange); transform: scale(1.1); }
+.game-info { display:flex; flex-direction:column; align-items:center; gap:18px; margin-top:25px; }
+.info-card { background: rgba(0,0,0,0.9); padding:20px 30px; border-radius:20px; box-shadow:0 0 25px #000, inset 0 0 10px #444; display:flex; flex-direction:column; gap:14px; min-width:260px; text-align:left; }
+.label { color: #ffb347; }
+.value { color: #ffd700; text-shadow: 0 0 5px #000; }
+.bet-input { width:80px; padding:6px 10px; border-radius:10px; border:2px solid #ffae00; text-align:center; font-weight:bold; color:#111; outline:none; box-shadow: inset 0 0 5px #ffae00; font-size:1rem; }
+.bet-input:focus { box-shadow:0 0 12px #ffd700, 0 0 18px #ffcc33 inset; }
+.free-spins { margin-top:10px; font-size:1.3rem; font-weight:bold; color:#ff7f50; text-shadow:0 0 6px #000; animation: neonPulse 1.5s infinite alternate; }
+@keyframes neonPulse { 0% { text-shadow:0 0 6px #000,0 0 6px #ff7f50; } 100% { text-shadow:0 0 12px #000,0 0 14px #ff7f50; } }
+.spin-btn { padding: 12px 30px; font-size: 1.1rem; border: none; border-radius: 14px; cursor: pointer; background: linear-gradient(45deg, #ff7f50, #ffd700); color: #111; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.6); transition: all 0.25s; margin: 5px; }
+.spin-btn:hover { background: linear-gradient(45deg, gold, orange); box-shadow: 0 6px 20px rgba(0,0,0,0.7), 0 0 10px #ffd700; transform: scale(1.05); }
+.spin-controls, .speed-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 10px 0; }
+.speed-controls .label { align-self: center; font-weight: bold; color: #ffd700; }
+.spin-btn { min-width: 120px; }
+.speed-btn { min-width: 80px; font-size: 1rem; }
+#auto-btn.on { background: linear-gradient(45deg, #00ff7f, #32cd32); }
+#auto-btn.off { background: linear-gradient(45deg, #ff4040, #ff6347); }
+#main-event {
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.85);
+    display:flex; justify-content:center; align-items:center;
+    z-index: 10000;
+    flex-direction: column;
+    color: gold; font-size: 3rem; font-weight: bold;
+    text-shadow: 0 0 10px #fff,0 0 20px #ff0,0 0 30px #ff8c00,0 0 40px #ffa500;
+    animation: mainEventPulse 1s infinite alternate;
+    display:none;
+}
+@keyframes mainEventPulse {
+  0% { transform: scale(1); opacity: 1; text-shadow:0 0 10px gold;}
+  50% { transform: scale(1.15); opacity: 0.9; text-shadow:0 0 25px gold;}
+  100% { transform: scale(1.25); opacity: 1; text-shadow:0 0 40px gold;}
+}
+
+/* --- Cash Out Celebration --- */
+#cashout-overlay {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+    flex-direction: column;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.cashout-box {
+    background: rgba(0,0,0,0.85);
+    padding: 40px 50px;
+    border-radius: 25px;
+    text-align: center;
+    color: gold;
+    box-shadow: 0 0 25px gold, 0 0 50px orange;
+    animation: popIn 0.6s ease forwards;
+}
+
+.cashout-box h1 {
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px gold, 0 0 20px orange;
+    margin-bottom: 20px;
+}
+
+.cashout-box p {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    color: #ffd700;
+    text-shadow: 0 0 5px #000;
+}
+
+.cashout-box button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    color: #111;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+.cashout-box button:hover {
+    background: linear-gradient(45deg, #ffcc33, #ffa500);
+    transform: scale(1.1);
+}
+
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes popIn { 0%{transform:scale(0.7);} 100%{transform:scale(1);} }
+
+/* Falling coins */
+.coin {
+    position: fixed;
+    top: -50px;
+    font-size: 1.8rem;
+    color: gold;
+    text-shadow: 0 0 10px orange, 0 0 20px gold;
+    animation: fall linear forwards;
+}
+@keyframes fall {
+    from { transform: translateY(-50px) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Prologue -->
+<div id="prologue-overlay">
+    <h1>⚠️ WARNING ⚠️</h1>
+    <p>This game is intended for entertainment purposes only.<br>Players must be 18 years or older.</p>
+    <button onclick="acceptPrologue()">I Understand & Play</button>
+    <button onclick="showInstructions()">📖 How to Play</button>
+</div>
+
+
+
+<!-- Instructions Overlay -->
+<div id="instructions-overlay" style="display:none;">
+    <h1>📖 How to Play Super Skatter</h1>
+    <div style="max-width:700px; text-align:left; font-size:1.2rem; color:#ffd700; line-height:1.6;">
+        <p>🎰 <b>Spin the Slots:</b> Press the <b>SPIN</b> button to play. Each spin costs your chosen bet.</p>
+        <p>💵 <b>Betting:</b> Adjust your bet using the <b>Bet</b> input. Your balance decreases when you spin.</p>
+        <p>🏆 <b>Winning:</b> Match at least <b>3 identical symbols in a row or column</b> to win prizes.</p>
+        <p>✨ <b>Scatter Symbols:</b> Getting <b>3 or more Scatter</b> symbols awards <b>Free Spins</b>!</p>
+        <p>📈 <b>Multiplier:</b> Consecutive matches increase your win multiplier.</p>
+        <p>♻️ <b>Auto Spin:</b> Use <b>AUTO</b> to let the game spin automatically.</p>
+        <p>💳 <b>Cash Out:</b> Press <b>CASH OUT</b> to withdraw your balance (saved in history).</p>
+        <p>⚠️ <b>Reminder:</b> This game is for <u>entertainment only</u>. Play responsibly!</p>
+    </div>
+    <button onclick="closeInstructions()">⬅ Back</button>
+</div>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <h1>Loading Super Skatter 🎰</h1>
+  <div id="loading-bar-container"><div id="loading-bar"></div></div>
+</div>
+
+<!-- Game -->
+<div id="game">
+  <h1>🎰 Super Skatter Slot Machine</h1>
+
+  <div class="slot-grid" id="slot-grid">
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  </div>
+
+  <div class="game-info">
+    <div class="info-card">
+      <div class="info-grid">
+        <div><span class="label">Balance:</span> <span id="balance" class="value">0 💵</span></div>
+        <div><span class="label">Bet:</span> 
+          <input type="number" id="bet-input" value="10" min="1" class="bet-input"/> 💵
+        </div>
+        <div><span class="label">Last Win:</span> <span id="win" class="value">0 💵</span></div>
+        <div><span class="label">Multiplier:</span> <span id="multiplier" class="value">1x</span></div>
+      </div>
+      <div id="free-spins" class="free-spins"></div>
+    </div>
+  
+    <div class="btn-row">
+        <div class="spin-controls">
+          <button class="spin-btn" onclick="spin()">🎰 SPIN</button>
+          <button class="spin-btn off" id="auto-btn" onclick="toggleAutoSpin()">AUTO: OFF</button>
+          <button class="spin-btn" onclick="cashOut()">💵 CASH OUT</button>
+          <button class="spin-btn" onclick="downloadCashOutHistory()">📥 HISTORY</button>
+        </div>
+      
+        <div class="speed-controls">
+          <span class="label">Speed:</span>
+          <button class="speed-btn" onclick="setSpeed('slow')">🐢 Slow</button>
+          <button class="speed-btn" onclick="setSpeed('normal')">⚡ Normal</button>
+          <button class="speed-btn" onclick="setSpeed('fast')">🚀 Fast</button>
+        </div>
+      </div>
+</div>
+
+<div id="balance-popup">
+    <p>❌ Your balance is empty! Please top up to continue 💵</p>
+    <button onclick="goTopUp()">💳 Go to Top Up</button>
+</div>
+
+<div id="main-event"></div>
+
+<!-- Cash Out Celebration -->
+<div id="cashout-overlay" style="display:none;">
+  <div class="cashout-box">
+    <h1>💰 Cash Out Successful! 💰</h1>
+    <p id="cashout-amount">You cashed out: 0 💵</p>
+    <button onclick="closeCashout()">Continue</button>
+  </div>
+</div>
+
+<!-- Epilogue -->
+<div id="epilogue-overlay" style="display:none;">
+    <h1>🎮 Thank you for playing! 🎮</h1>
+    <p>Remember: This game is for entertainment purposes only.<br>Play responsibly!</p>
+    <button onclick="closeEpilogue()">Close</button>
+</div>
+
+
+
+<script>
+// --- Symbols & weights ---
+const symbols = ["images/symbols/1.png","images/symbols/2.png","images/symbols/3.png","images/symbols/4.png","images/symbols/5.png","images/symbols/6.png","images/symbols/7.png","images/symbols/8.png","images/scatter.png"];
+const symbolValues = [0.5,0.5,1.5,1.5,1.5,2,2.3,4,0];
+const symbolWeights = [30,20,15,9,5,3,2,1,5]; 
+const scatterImg="images/scatter.png";
+
+let balance=0, freeSpins=0, autoSpin=false, autoInterval=null, spinSpeed=1200, multiplier=1;
+
+// --- Prologue ---
+function acceptPrologue(){
+    document.getElementById("prologue-overlay").style.display="none";
+    startGame();
+}
+
+// --- Epilogue ---
+function showEpilogue(){
+    document.getElementById("epilogue-overlay").style.display="flex";
+}
+function closeEpilogue(){
+    document.getElementById("epilogue-overlay").style.display="none";
+}
+
+function showInstructions(){
+    document.getElementById("prologue-overlay").style.display="none";
+    document.getElementById("instructions-overlay").style.display="flex";
+}
+function closeInstructions(){
+    document.getElementById("instructions-overlay").style.display="none";
+    document.getElementById("prologue-overlay").style.display="flex";
+}
+
+
+// --- Balance & Storage ---
+function loadBalance(){ 
+    balance=parseInt(localStorage.getItem("balance"))||100; 
+    document.getElementById("balance").textContent=balance+" 💵"; 
+}
+function saveBalance(){ localStorage.setItem("balance", balance); }
+function goTopUp(){ window.location.href="topup.html"; }
+
+// --- Random Symbol ---
+function getRandomSymbol(){
+    const total=symbolWeights.reduce((a,b)=>a+b,0);
+    let r=Math.floor(Math.random()*total);
+    for(let i=0;i<symbols.length;i++){ 
+        if(r<symbolWeights[i]) return symbols[i]; 
+        r-=symbolWeights[i]; 
+    }
+    return symbols[0];
+}
+
+// --- Grid Initialization ---
+function initGrid(){
+    document.querySelectorAll(".cell").forEach(c=>{
+        const sym=getRandomSymbol();
+        c.innerHTML=`<img src="${sym}">`;
+        c.classList.remove("scatter");
+        if(sym===scatterImg)c.classList.add("scatter");
+    });
+}
+
+// --- Spin Logic ---
+function spin(){ setTimeout(doSpin, 300); }
+function doSpin(){
+    let bet=parseInt(document.getElementById("bet-input").value);
+    if(isNaN(bet)||bet<1) bet=1;
+    if(freeSpins===0 && balance<bet){ showBalancePopup(); return; }
+    if(freeSpins===0) balance-=bet; else freeSpins--;
+
+    const cells=document.querySelectorAll(".cell");
+    cells.forEach(c=>c.classList.remove("highlight","scatter"));
+
+    const rows=[];
+    for(let r=0;r<4;r++){ rows[r]=[]; for(let c=0;c<4;c++) rows[r].push(cells[r*4+c]); }
+
+    let spinsCompleted=0;
+    rows.forEach((row,rowIndex)=>{
+        let times=10+Math.floor(Math.random()*5);
+        let interval=setInterval(()=>{
+            row.forEach(cell=>{
+                const sym=getRandomSymbol();
+                cell.innerHTML=`<img src="${sym}">`;
+                cell.classList.remove("scatter");
+                if(sym===scatterImg) cell.classList.add("scatter");
+            });
+            times--;
+            if(times<=0){ clearInterval(interval); spinsCompleted++; if(spinsCompleted===4) checkWin(rows, bet); }
+        }, spinSpeed/15);
+    });
+
+    updateUI();
+}
+
+// --- Check Win ---
+function checkWin(grid, bet){
+    let win=0;
+    let scatterCount=0;
+    multiplier = 1;
+
+    function checkLine(line){
+        for(let i=0;i<=line.length-3;i++){
+            const s0=line[i].querySelector("img").src.split("/").pop();
+            const s1=line[i+1].querySelector("img").src.split("/").pop();
+            const s2=line[i+2].querySelector("img").src.split("/").pop();
+            if(s0===s1 && s1===s2 && s0!==scatterImg){ 
+                win += bet * symbolValues[symbols.indexOf(s0)];
+                line[i].classList.add("highlight"); 
+                line[i+1].classList.add("highlight"); 
+                line[i+2].classList.add("highlight");
+                multiplier += 0.5;
+            }
+        }
+    }
+
+    grid.forEach(row=>checkLine(row));
+    grid[0].forEach((_,i)=>checkLine(grid.map(row=>row[i])));
+    grid.flat().forEach(cell=>{ if(cell.querySelector("img").src.includes(scatterImg)) scatterCount++; });
+
+    if(scatterCount>=3){ 
+        freeSpins += scatterCount; 
+        showMainEvent(`🎉 ${scatterCount} FREE SPINS!`);
+    }
+
+    win *= multiplier;
+    balance += win;
+    saveBalance();
+    document.getElementById("balance").textContent=balance+" 💵";
+    document.getElementById("win").textContent=win.toFixed(2)+" 💵";
+    document.getElementById("multiplier").textContent=multiplier.toFixed(1)+"x";
+
+    if(win>0 && !autoSpin){ setTimeout(spin, spinSpeed); }
+
+    updateUI();
+}
+
+// --- UI Updates ---
+function updateUI(){ 
+    document.getElementById("free-spins").textContent=freeSpins>0?`Free Spins: ${freeSpins}`:""; 
+}
+function showBalancePopup(){ document.getElementById("balance-popup").style.display="block"; }
+function cashOut() {
+    if(balance <= 0) { alert("You have no balance to cash out!"); return; }
+
+    const history = JSON.parse(localStorage.getItem("cashOutHistory")) || [];
+    history.push({ amount: balance, date: new Date().toLocaleString() });
+    localStorage.setItem("cashOutHistory", JSON.stringify(history));
+
+    // Show cashout overlay
+    document.getElementById("cashout-amount").textContent = `You cashed out: ${balance} 💵`;
+    document.getElementById("cashout-overlay").style.display = "flex";
+
+    // Coin rain effect
+    for (let i=0; i<20; i++) {
+        let coin = document.createElement("div");
+        coin.className = "coin";
+        coin.textContent = "🪙";
+        coin.style.left = Math.random()*100 + "vw";
+        coin.style.animationDuration = (2 + Math.random()*2) + "s";
+        document.body.appendChild(coin);
+        setTimeout(()=>coin.remove(),4000);
+    }
+
+    balance = 0;
+    document.getElementById("balance").textContent = balance + " 💵";
+    saveBalance();
+}
+
+function closeCashout(){
+    document.getElementById("cashout-overlay").style.display = "none";
+    showEpilogue(); // after celebration, go to epilogue
+}
+
+
+
+function downloadCashOutHistory() {
+    const history = JSON.parse(localStorage.getItem("cashOutHistory")) || [];
+    if(history.length === 0){ alert("No cash out history found!"); return; }
+
+    let csvContent = "data:text/csv;charset=utf-8,Amount,Date\n";
+    history.forEach(item => { csvContent += `${item.amount},${item.date}\n`; });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "cash_out_history.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+function toggleAutoSpin(){
+    autoSpin=!autoSpin;
+    const btn=document.getElementById("auto-btn");
+    if(autoSpin){ btn.textContent="AUTO: ON"; btn.classList.replace("off","on"); autoInterval=setInterval(spin, spinSpeed*1.5); }
+    else{ btn.textContent="AUTO: OFF"; btn.classList.replace("on","off"); clearInterval(autoInterval); }
+}
+function setSpeed(type){ spinSpeed=type==="slow"?1500:type==="fast"?700:1200; }
+function showMainEvent(text){
+    const overlay=document.getElementById("main-event");
+    overlay.innerHTML=`<h1>${text}</h1>`;
+    overlay.style.display="flex";
+    setTimeout(()=>overlay.style.display="none",1500);
+}
+
+// --- Game Start ---
+function startGame(){
+    const loader=document.getElementById("loading-screen");
+    const game=document.getElementById("game");
+    loadBalance();
+    initGrid();
+    setTimeout(()=>{ loader.style.display="none"; game.style.display="block"; },3000);
+}
+</script>
+
+</body>
+</html>

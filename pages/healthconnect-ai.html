@@ -1,0 +1,202 @@
+<!doctype html>
+
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="HealthConnect AI is a proposed mobile health monitoring and wellness education platform for Cebu Eastern College students and authorized clinic personnel." name="description"/>
+<title>HealthConnect AI | Roque M. Remoroza Portfolio</title>
+<link href="../assets/images/profile.jpg" rel="icon" type="image/jpeg"/>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root { --bg:#0b1220; --panel:#101a2f; --muted:#a4b2c4; --text:#edf3fa; --accent:#ff4081; --line:rgba(255,255,255,.10); --teal:#69d9cb; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--text); background:radial-gradient(circle at 60% 0%,#142947 0%,#0b1220 55%,#06101e 100%); font-family:'League Spartan',system-ui,Arial,sans-serif; line-height:1.55; }
+    a { color:inherit; }
+    .wrap { max-width:1130px; padding:0 25px; margin:0 auto; }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:27px; padding-bottom:26px; }
+    .brand { display:flex; align-items:center; gap:12px; font-size:1.1rem; font-weight:700; }
+    .brand-mark { height:39px; width:39px; display:grid; place-items:center; background:linear-gradient(135deg,#ff4081,#ff8bb6); border-radius:12px; color:#161d2b; font-size:1.5rem; }
+    .back { text-decoration:none; font-weight:700; padding:11px 17px; border:1px solid var(--line); border-radius:999px; transition:.2s; }
+    .back:hover,.back:focus-visible { border-color:var(--accent); background:rgba(255,64,129,.08); }
+    .hero { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr); align-items:center; gap:45px; padding:52px 0 64px; }
+    .eyebrow { color:#ffc1d6; font-size:.83rem; font-weight:700; text-transform:uppercase; letter-spacing:.17em; }
+    .eyebrow .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--accent); margin-right:8px; vertical-align:middle; }
+    h1 { font-size:clamp(3.2rem,7vw,5.5rem); line-height:1.01; letter-spacing:-.04em; margin:18px 0 18px; }
+    h1 span { color:var(--accent); }
+    .subtitle { color:#cbd5e4; font-size:1.22rem; max-width:580px; margin-bottom:14px; }
+    .research-title { color:var(--muted); font-size:1rem; max-width:590px; }
+    .pill-row { display:flex; flex-wrap:wrap; gap:9px; margin:24px 0 30px; }
+    .pill { color:#d8e2ef; font-weight:600; border:1px solid var(--line); background:rgba(255,255,255,.04); padding:7px 12px; border-radius:50px; font-size:.88rem; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .button { display:inline-block; text-decoration:none; font-weight:700; background:var(--accent); color:#0b1220; padding:12px 21px; border-radius:10px; transition:.2s; }
+    .button:hover,.button:focus-visible { background:#ff6ba2; transform:translateY(-2px); }
+    .button.secondary { background:transparent; color:#eaf1f8; border:1px solid var(--line); }
+    .button.secondary:hover { border-color:var(--accent); background:rgba(255,64,129,.09); }
+    .preview-stage { min-height:470px; border:1px solid rgba(255,255,255,.09); border-radius:26px; background:radial-gradient(circle at 30% 30%,rgba(255,64,129,.15),transparent 60%),radial-gradient(circle at 65% 70%,rgba(105,217,203,.12),transparent 48%),rgba(255,255,255,.025); padding:24px 16px 15px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+    .phone { width:244px; max-width:100%; border:8px solid #070f19; background:#f6f9fc; border-radius:35px; padding:14px 12px 16px; color:#1a2f40; box-shadow:0 26px 45px rgba(0,0,0,.44),0 0 0 1px #556171; transform:rotate(2deg); }
+    .phone-notch { width:70px; height:12px; border-radius:0 0 10px 10px; background:#070f19; margin:-14px auto 12px; }
+    .app-top { display:flex; justify-content:space-between; align-items:center; font-size:.75rem; font-weight:700; }
+    .app-icon { display:grid; place-items:center; height:27px; width:27px; background:#ffe6ef; border-radius:9px; color:#e7437f; }
+    .hello { font-size:.7rem; color:#6d8290; margin-top:19px; }
+    .app-title { font-size:1.35rem; font-weight:700; line-height:1.2; margin:2px 0 14px; }
+    .heart-card { background:linear-gradient(130deg,#e94583,#fc77ab); padding:13px; border-radius:16px; color:#fff; }
+    .heart-card b { font-size:1.05rem; }
+    .heart-card p { margin:5px 0 0; font-size:.72rem; line-height:1.25; }
+    .min-heading { font-weight:700; margin:16px 0 9px; font-size:.77rem; }
+    .app-mini { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .mini { background:#fff; border:1px solid #e4eaf0; border-radius:11px; padding:10px 8px; min-height:69px; }
+    .mini span { font-size:1.1rem; display:block; }
+    .mini b { display:block; font-size:.73rem; line-height:1.2; margin-top:4px; }
+    .mini small { display:block; color:#748794; font-size:.62rem; margin-top:3px; }
+    .app-foot { display:flex; justify-content:space-around; margin-top:14px; color:#738895; font-size:.65rem; border-top:1px solid #e0e8ef; padding-top:9px; }
+    .app-foot strong { color:#e94583; }
+    .preview-note { color:#a9b9c8; font-size:.77rem; text-align:center; }
+    .section { margin:10px 0 44px; }
+    .section h2 { font-size:2rem; line-height:1.2; margin:0 0 12px; }
+    .section-intro { color:var(--muted); max-width:800px; font-size:1.08rem; margin-bottom:20px; }
+    .features { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+    .feature { border:1px solid var(--line); background:rgba(255,255,255,.035); border-radius:16px; padding:22px; }
+    .feature .symbol { width:40px; height:40px; display:grid; place-items:center; color:#ffd9e6; border-radius:12px; background:rgba(255,64,129,.12); font-size:1.3rem; }
+    .feature h3 { margin:13px 0 7px; font-size:1.2rem; }
+    .feature p { color:var(--muted); margin:0; font-size:.99rem; }
+    .columns { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .info-panel { background:rgba(16,26,47,.9); border:1px solid var(--line); border-radius:18px; padding:24px 27px; }
+    .info-panel h3 { font-size:1.35rem; margin:0 0 13px; }
+    .info-panel ul { list-style:none; padding:0; margin:0; display:grid; gap:11px; }
+    .info-panel li { padding-left:22px; position:relative; color:#c6d3e2; }
+    .info-panel li:before { content:'✓'; position:absolute; left:0; color:var(--teal); font-weight:700; }
+    .safety { border-left:3px solid var(--teal); padding:18px 20px; background:rgba(105,217,203,.065); border-radius:0 12px 12px 0; color:#c8d9e7; }
+    .stack { display:flex; flex-wrap:wrap; gap:9px; margin:16px 0 0; }
+    .stack span { background:rgba(255,255,255,.06); padding:9px 13px; border-radius:8px; color:#eaf1f7; font-weight:600; }
+    .note { color:var(--muted); font-size:.95rem; margin-top:14px; }
+    footer { text-align:center; color:var(--muted); border-top:1px solid var(--line); padding:30px 0 35px; margin-top:65px; }
+    @media(max-width:800px) { .hero { grid-template-columns:1fr; gap:28px; padding:22px 0 40px; } .hero-copy { max-width:700px; } .preview-stage { min-height:0; padding:27px 20px 20px; } .features { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:580px) { .wrap { padding:0 17px; } .top { align-items:flex-start; } .brand { font-size:.95rem; } .back { padding:9px 11px; font-size:.8rem; } h1 { font-size:3.6rem; } .features,.columns { grid-template-columns:1fr; } .feature { padding:19px; } .info-panel { padding:22px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .button { transition:none; } }
+  </style>
+<style>
+   /* Dark portfolio design, while preserving the proposed app mockup. */
+   :root{--bg:#090a0c;--panel:#141619;--muted:#adb0b8;--text:#f2f3f5;--accent:#dbe8ee;--line:rgba(255,255,255,.14);--teal:#9ed7c8}
+   body{background:radial-gradient(circle at 70% 0%,#1c252c 0%,#0d1014 42%,#090a0c 85%)}
+   .brand-mark{background:#e2e9ed;color:#1b2228}
+   .eyebrow{color:#d1d8e0}
+   h1 span{color:#dce5eb}
+   .button{color:#11151a}
+   .button:hover,.button:focus-visible{background:#bfced6}
+   .preview-stage{background:radial-gradient(circle at 35% 30%,rgba(174,192,204,.13),transparent 65%),rgba(255,255,255,.025)}
+   .feature .symbol{color:#daeaf3;background:rgba(194,212,228,.08)}
+   .info-panel{background:#13161a}
+   .back{color:#e9ecef}
+   .back:hover,.back:focus-visible{background:#20282c}
+  </style>
+<style>
+  /* Roque M. Remoroza — deep navy showcase with icy-blue links. */
+  :root {--bg:#090d14;--panel:#101824;--muted:#a4b5c9;--text:#eef5ff;--accent:#a6caff;--line:rgba(178,201,236,.19);--teal:#83dbd0;}
+  body { background:radial-gradient(ellipse at 83% 8%,#1b304a 0%,#0c1420 47%,#090d14 100%);color:var(--text); }
+  .top {border-bottom:1px solid var(--line);}
+  .brand {color:#f5f8ff;}
+  .brand-mark {background:linear-gradient(130deg,#bcd7ff,#759fe8);color:#101a2b;}
+  .back {border-color:#52677e;color:#e5f0ff;}
+  .back:hover,.back:focus-visible {border-color:#aacaff;background:#15253a;}
+  .eyebrow,h1 span {color:#a6caff;}
+  .subtitle {color:#c9d7e9;}
+  .research-title {color:#91a4ba;}
+  .pill {background:#152336;color:#c9d9ee;border-color:#334860;}
+  .button {background:#accdff;color:#0a1422;border-radius:10px;}
+  .button:hover,.button:focus-visible {background:#cfddff;}
+  .button.secondary {border-color:#52677e;color:#e5effe;}
+  .button.secondary:hover {background:#192b41;}
+  .preview-stage {background:radial-gradient(circle at 35% 22%,rgba(126,174,241,.2),transparent 60%),linear-gradient(135deg,#131f33,#101722);border:1px solid #31445f;}
+  .preview-note {color:#bccce1;}
+  .section h2 {color:#f3f7ff;}
+  .section-intro {color:#a9b9d0;}
+  .feature,.info-panel {background:#121d2b;border:1px solid #293950;}
+  .feature .symbol {color:#b1d0ff;background:#233a54;}
+  .feature h3,.info-panel h3 {color:#f0f5ff;}
+  .feature p,.info-panel li {color:#b5c4d8;}
+  .safety {color:#c3d9e5;background:#132c33;}
+  .stack span {color:#bcd3f1;background:#192b40;}
+  .note,footer {color:#9eafc5;}
+  a:focus-visible {outline:3px solid #a6caff;outline-offset:3px;}
+</style></head>
+<body>
+<header class="wrap top">
+<div class="brand"><span aria-hidden="true" class="brand-mark">♥</span><span>Roque M. Remoroza <span style="color:var(--muted);font-weight:400">/ Featured Project</span></span></div>
+<a class="back" href="../index.html#projects">← Back to Projects</a>
+</header>
+<main class="wrap">
+<section aria-labelledby="project-title" class="hero">
+<div class="hero-copy">
+<div class="eyebrow"><span class="dot"></span>Proposed capstone project · Mobile application</div>
+<h1 id="project-title">HealthConnect <span>AI</span></h1>
+<p class="subtitle">A student-focused mobile wellness and health-monitoring concept connecting everyday health tracking with appropriate school clinic support.</p>
+<p class="research-title">Research title: “Student Health Monitoring, Health Track Mobile Application, and Healthcare Tips System Using Artificial Intelligence for Cebu Eastern College, Inc.”</p>
+<div aria-label="Key project areas" class="pill-row">
+<span class="pill">Student wellness tracking</span><span class="pill">AI-powered general tips</span><span class="pill">Clinic-approved safety alerts</span>
+</div>
+<div class="hero-actions"><a class="button" href="#features">Explore Features</a><a class="button secondary" href="../index.html#projects">More Projects</a></div>
+</div>
+<div aria-label="Illustrative mobile app concept" class="preview-stage">
+<div aria-hidden="true" class="phone">
+<div class="phone-notch"></div>
+<div class="app-top"><span>HealthConnect AI</span><span class="app-icon">♥</span></div>
+<div class="hello">Your wellness companion</div>
+<div class="app-title">Take care of yourself.</div>
+<div class="heart-card"><b>Daily Wellness</b><p>Track your wellbeing and explore general health tips.</p></div>
+<div class="min-heading">Explore</div>
+<div class="app-mini">
+<div class="mini"><span>♡</span><b>Health Tracking</b><small>Personal entries</small></div>
+<div class="mini"><span>✦</span><b>Wellness Tips</b><small>Educational support</small></div>
+<div class="mini"><span>◷</span><b>Reminders</b><small>Preventive habits</small></div>
+<div class="mini"><span>▤</span><b>My History</b><small>Past entries</small></div>
+</div>
+<div class="app-foot"><strong>⌂ Home</strong><span>▤ History</span><span>◉ Profile</span></div>
+</div>
+<p class="preview-note">Illustrative interface concept — not an actual screenshot or medical record.</p>
+</div>
+</section>
+<section class="section" id="features">
+<h2>Project Overview</h2>
+<p class="section-intro">HealthConnect AI is designed for students of Cebu Eastern College and authorized school clinic personnel. The proposed platform combines voluntary health tracking, health education, preventive reminders, and a permission-controlled clinic workflow to help students stay informed and facilitate appropriate follow-up.</p>
+<div class="features">
+<article class="feature"><div aria-hidden="true" class="symbol">♡</div><h3>Health Tracking</h3><p>Students can record personal wellness information and review their health-entry history.</p></article>
+<article class="feature"><div aria-hidden="true" class="symbol">✦</div><h3>AI Wellness Tips</h3><p>An AI component is planned to deliver general, non-diagnostic wellness education and preventive-care guidance.</p></article>
+<article class="feature"><div aria-hidden="true" class="symbol">◷</div><h3>Preventive Reminders</h3><p>Helpful reminders encourage health awareness and consistent everyday wellness practices.</p></article>
+</div>
+</section>
+<section class="section">
+<h2>Two Connected User Experiences</h2>
+<div class="columns">
+<article class="info-panel"><h3>For Students</h3><ul>
+<li>Account registration and clinic-approved access</li>
+<li>Health profile, voluntary tracking, and entry history</li>
+<li>General AI wellness tips and preventive reminders</li>
+<li>Immediate safety guidance for serious warning criteria</li>
+<li>Privacy and permission-based sharing controls</li>
+</ul></article>
+<article class="info-panel"><h3>For Authorized Clinic Personnel</h3><ul>
+<li>Review and approve applicable student registrations</li>
+<li>Receive rule-triggered alerts for serious warning criteria</li>
+<li>Review permitted records and coordinate follow-up</li>
+<li>Document student wellness monitoring and follow-up</li>
+<li>Generate approved health-monitoring reports</li>
+</ul></article>
+</div>
+</section>
+<section class="section">
+<h2>Safety-First Approach</h2>
+<div class="safety"><strong>Important distinction:</strong> HealthConnect AI is a proposed wellness support tool, not a medical diagnosis, prescription, or emergency response system. Clinic-approved rules — rather than AI-generated guesses — are intended to determine serious-warning alerts. Any real medical concern requires appropriate professional care.</div>
+</section>
+<section class="section">
+<h2>Planned Technology Stack</h2>
+<p class="section-intro">The capstone proposal outlines the following tools for mobile development, backend services, data storage, and non-diagnostic wellness information.</p>
+<div class="stack"><span>Flutter / Dart</span><span>Python / Django</span><span>PostgreSQL</span><span>OpenAI API (planned)</span><span>Rule-based Safety Checks</span></div>
+<p class="note">Project status: proposed capstone and interface concept. Features and integrations listed here are planned, not presented as an already deployed or clinically validated application.</p>
+</section>
+</main>
+<footer>HealthConnect AI · Student capstone concept · <a href="../index.html#projects">Return to Portfolio</a></footer>
+</body>
+</html>
